@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A31B02361FBB6843004EDC5D /* StationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31B02351FBB6843004EDC5D /* StationTableViewController.swift */; };
 		A346B9E91FBAB18600D1C094 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A346B9E81FBAB18600D1C094 /* AppDelegate.swift */; };
 		A346B9EB1FBAB18600D1C094 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A346B9EA1FBAB18600D1C094 /* ViewController.swift */; };
 		A346B9EE1FBAB18600D1C094 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A346B9EC1FBAB18600D1C094 /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A31B02351FBB6843004EDC5D /* StationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTableViewController.swift; sourceTree = "<group>"; };
 		A346B9E51FBAB18600D1C094 /* StationLocation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StationLocation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A346B9E81FBAB18600D1C094 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A346B9EA1FBAB18600D1C094 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +49,7 @@
 		A346BA041FBAB18600D1C094 /* StationLocationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StationLocationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A346BA081FBAB18600D1C094 /* StationLocationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationLocationUITests.swift; sourceTree = "<group>"; };
 		A346BA0A1FBAB18600D1C094 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A346BA171FBAB23100D1C094 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +84,7 @@
 				A346B9FC1FBAB18600D1C094 /* StationLocationTests */,
 				A346BA071FBAB18600D1C094 /* StationLocationUITests */,
 				A346B9E61FBAB18600D1C094 /* Products */,
+				A346BA161FBAB23100D1C094 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +107,7 @@
 				A346B9EF1FBAB18600D1C094 /* Assets.xcassets */,
 				A346B9F11FBAB18600D1C094 /* LaunchScreen.storyboard */,
 				A346B9F41FBAB18600D1C094 /* Info.plist */,
+				A31B02351FBB6843004EDC5D /* StationTableViewController.swift */,
 			);
 			path = StationLocation;
 			sourceTree = "<group>";
@@ -123,6 +128,14 @@
 				A346BA0A1FBAB18600D1C094 /* Info.plist */,
 			);
 			path = StationLocationUITests;
+			sourceTree = "<group>";
+		};
+		A346BA161FBAB23100D1C094 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A346BA171FBAB23100D1C094 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -260,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A346B9EB1FBAB18600D1C094 /* ViewController.swift in Sources */,
+				A31B02361FBB6843004EDC5D /* StationTableViewController.swift in Sources */,
 				A346B9E91FBAB18600D1C094 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
