@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Tap the map-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="StationLocation" customModuleProvider="target" sceneMemberID="viewController">
@@ -35,7 +35,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="S4R-n0-QL5"/>
+                    <navigationItem key="navigationItem" title="Tap the map" id="S4R-n0-QL5"/>
                     <connections>
                         <outlet property="mapView" destination="S8p-MQ-B5f" id="9FV-LZ-txT"/>
                         <segue destination="rYP-49-nQk" kind="show" identifier="stationList" id="5TF-yC-ZZc"/>

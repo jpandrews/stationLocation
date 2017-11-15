@@ -9,7 +9,8 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController , MKMapViewDelegate {
+
+class ViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!{
         didSet{
@@ -28,11 +29,6 @@ class ViewController: UIViewController , MKMapViewDelegate {
         let region = MKCoordinateRegionMakeWithDistance(startingCoordinate, regionDistance, regionDistance)
         mapView.region = region ;
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
 
     @IBAction func handleTapGesture(_ sender: UITapGestureRecognizer) 
     {
@@ -40,11 +36,65 @@ class ViewController: UIViewController , MKMapViewDelegate {
         {
             let tapPoint = sender.location(in: self.mapView)
             let mapCoord = self.mapView.convert(tapPoint, toCoordinateFrom: self.mapView)
-            print("User tap @\(mapCoord.latitude) \(mapCoord.longitude)")
+            print("User tap @\(mapCoord.latitude) \(mapCoord.longitude), creating annotation...")
+            
+            let locationNote = LocationAnnotation.init(mapCoord)
+            locationNote.delegate = self
+            self.mapView.addAnnotation(locationNote)
         }
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let segue = segue.identifier{
+            if segue == "stationList"{
+                
+            }
+        }
+    }
+}
 
+// MARK:- Delegate Setup
+extension ViewController : MKMapViewDelegate , LocationAnnotationDelegate
+{
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
+    {
+        let annotationIdentifier = "tapNote"
+        var annotationView : MKPinAnnotationView
+        if let dequeView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) as? MKPinAnnotationView {
+            annotationView = dequeView
+        }else{
+            annotationView = MKPinAnnotationView.init(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            annotationView.canShowCallout = true
+            annotationView.rightCalloutAccessoryView = UIButton.init(type: UIButtonType.detailDisclosure)
+        }
+        annotationView.annotation = annotation
+
+        return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let annotation = view.annotation as? LocationAnnotation{
+            annotation.fetchLocationData()
+//            // uncomment to simulate network delay
+//            let delay = DispatchTimeInterval.seconds(2)
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay, execute: {
+//                annotation.fetchLocationData()
+//            })
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        // detail view tapped
+        if view.rightCalloutAccessoryView == control{
+            self.performSegue(withIdentifier: "stationList", sender: view)
+        }
+    }
+    
+    func didFinishLoadingLocationAnnotation(_ locationAnnotation: LocationAnnotation) {
+        // refresh the MKAnnotationView with the new location annotation
+        let view = self.mapView.view(for: locationAnnotation)
+        view?.annotation = nil
+        view?.annotation = locationAnnotation
+    }
 }
 
