@@ -9,13 +9,11 @@
 import Foundation
 import MapKit
 
-@objc protocol LocationAnnotationDelegate {
-    func didFinishLoadingLocationAnnotation(_ locationAnnotation:LocationAnnotation)
-}
-
 class LocationAnnotation: NSObject , MKAnnotation
 {
+    // store location information and loading status to limit multiple queries
     var placemark: CLPlacemark?
+    var placemarkLoading = false 
     
     let coordinate: CLLocationCoordinate2D
     var title: String? {
@@ -36,29 +34,5 @@ class LocationAnnotation: NSObject , MKAnnotation
     init(_ coordinate:CLLocationCoordinate2D){
         self.coordinate = coordinate
         super.init()
-    }
-    
-    weak var delegate: LocationAnnotationDelegate?
-    private var fetchInProgress = false
-    //
-    func fetchLocationData()
-    {
-        // fetch already complete or in progress, abort
-        if self.placemark != nil || fetchInProgress {
-            return
-        }
-        fetchInProgress = true
-        
-        let location = CLLocation.init(latitude: self.coordinate.latitude,
-                                       longitude: self.coordinate.longitude)
-        //
-        let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
-            if let placemark: CLPlacemark = placemarks?.first
-            {
-                self.placemark = placemark
-                self.delegate?.didFinishLoadingLocationAnnotation(self)
-            }
-        })
     }
 }

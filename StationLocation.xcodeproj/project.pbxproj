@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A30BF6431FBBB32F00BFE40E /* LocationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30BF6421FBBB32F00BFE40E /* LocationAnnotation.swift */; };
+		A30BF6451FBBF66000BFE40E /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30BF6441FBBF66000BFE40E /* LocationViewModel.swift */; };
+		A30BF6471FBC223200BFE40E /* WeatherStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30BF6461FBC223200BFE40E /* WeatherStation.swift */; };
 		A31B02361FBB6843004EDC5D /* StationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31B02351FBB6843004EDC5D /* StationTableViewController.swift */; };
 		A346B9E91FBAB18600D1C094 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A346B9E81FBAB18600D1C094 /* AppDelegate.swift */; };
 		A346B9EB1FBAB18600D1C094 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A346B9EA1FBAB18600D1C094 /* ViewController.swift */; };
@@ -37,6 +39,8 @@
 
 /* Begin PBXFileReference section */
 		A30BF6421FBBB32F00BFE40E /* LocationAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAnnotation.swift; sourceTree = "<group>"; };
+		A30BF6441FBBF66000BFE40E /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
+		A30BF6461FBC223200BFE40E /* WeatherStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherStation.swift; sourceTree = "<group>"; };
 		A31B02351FBB6843004EDC5D /* StationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTableViewController.swift; sourceTree = "<group>"; };
 		A346B9E51FBAB18600D1C094 /* StationLocation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StationLocation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A346B9E81FBAB18600D1C094 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +83,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A30BF6491FBC234300BFE40E /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				A346B9E81FBAB18600D1C094 /* AppDelegate.swift */,
+				A346B9F11FBAB18600D1C094 /* LaunchScreen.storyboard */,
+				A346B9EF1FBAB18600D1C094 /* Assets.xcassets */,
+				A346B9F41FBAB18600D1C094 /* Info.plist */,
+			);
+			name = SupportFiles;
+			sourceTree = "<group>";
+		};
 		A346B9DC1FBAB18600D1C094 = {
 			isa = PBXGroup;
 			children = (
@@ -103,14 +118,13 @@
 		A346B9E71FBAB18600D1C094 /* StationLocation */ = {
 			isa = PBXGroup;
 			children = (
-				A346B9E81FBAB18600D1C094 /* AppDelegate.swift */,
-				A346B9EA1FBAB18600D1C094 /* ViewController.swift */,
 				A346B9EC1FBAB18600D1C094 /* Main.storyboard */,
-				A346B9EF1FBAB18600D1C094 /* Assets.xcassets */,
-				A346B9F11FBAB18600D1C094 /* LaunchScreen.storyboard */,
-				A346B9F41FBAB18600D1C094 /* Info.plist */,
+				A346B9EA1FBAB18600D1C094 /* ViewController.swift */,
+				A30BF6441FBBF66000BFE40E /* LocationViewModel.swift */,
 				A31B02351FBB6843004EDC5D /* StationTableViewController.swift */,
 				A30BF6421FBBB32F00BFE40E /* LocationAnnotation.swift */,
+				A30BF6461FBC223200BFE40E /* WeatherStation.swift */,
+				A30BF6491FBC234300BFE40E /* SupportFiles */,
 			);
 			path = StationLocation;
 			sourceTree = "<group>";
@@ -276,8 +290,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A346B9EB1FBAB18600D1C094 /* ViewController.swift in Sources */,
+				A30BF6471FBC223200BFE40E /* WeatherStation.swift in Sources */,
 				A31B02361FBB6843004EDC5D /* StationTableViewController.swift in Sources */,
 				A346B9E91FBAB18600D1C094 /* AppDelegate.swift in Sources */,
+				A30BF6451FBBF66000BFE40E /* LocationViewModel.swift in Sources */,
 				A30BF6431FBBB32F00BFE40E /* LocationAnnotation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
