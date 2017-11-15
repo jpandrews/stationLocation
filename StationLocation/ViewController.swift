@@ -36,26 +36,32 @@ class ViewController: UIViewController {
             let mapCoord = self.mapView.convert(tapPoint, toCoordinateFrom: self.mapView)
             print("User tap @\(mapCoord.latitude) \(mapCoord.longitude), creating annotation...")
             
+            // location annotation
+            let locationNote = LocationAnnotation.init(mapCoord)
+            self.mapView.addAnnotation(locationNote)
+            
             // weather station fetch
             self.locationViewModel.loadWeatherStationsAtLocation(mapCoord, withHandler: { (weatherStations:[WeatherStation]) in
                 for weatherStation in weatherStations{
                     self.mapView.addAnnotation(weatherStation)
                 }
             })
-            
-            // location annotation
-            let locationNote = LocationAnnotation.init(mapCoord)
-            self.mapView.addAnnotation(locationNote)
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segue = segue.identifier{
-            if segue == "stationList"{
+            if segue == stationSegueId{
                 
             }
         }
     }
+    
+    // identifiers
+    private let stationSegueId = "stationList"
+    // KMAnnotationView setup
+    private let locationAnnotationId    = "locationAnnotation"
+    private let weatherStationId        = "weatherStation"
 }
 
 // MARK:- Delegate Setup
@@ -67,10 +73,10 @@ extension ViewController : MKMapViewDelegate
         
         var viewIdentifier: String?
         if annotation is LocationAnnotation{
-            viewIdentifier = "locationAnnotation"
+            viewIdentifier = locationAnnotationId
         }
         else if annotation is WeatherStation{
-            viewIdentifier = "weatherStation"
+            viewIdentifier = weatherStationId
         }
         
         if let identifer = viewIdentifier{
@@ -88,11 +94,11 @@ extension ViewController : MKMapViewDelegate
         }else{
             // custom view setup
             switch identifier{
-            case "locationAnnotation":
+            case locationAnnotationId:
                 annotationView = MKPinAnnotationView.init(annotation: annotation, reuseIdentifier: identifier)
                 annotationView?.canShowCallout = true
                 annotationView?.rightCalloutAccessoryView = UIButton.init(type: UIButtonType.detailDisclosure)
-            case "weatherStation":
+            case weatherStationId:
                 annotationView = MKPinAnnotationView.init(annotation: annotation, reuseIdentifier: identifier)
                 annotationView?.canShowCallout = false
             default:
@@ -118,7 +124,7 @@ extension ViewController : MKMapViewDelegate
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         // detail view tapped
         if view.annotation is LocationAnnotation && view.rightCalloutAccessoryView == control{
-            self.performSegue(withIdentifier: "stationList", sender: view)
+            self.performSegue(withIdentifier: stationSegueId, sender: view)
         }
     }
 }
