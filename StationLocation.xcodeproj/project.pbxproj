@@ -11,6 +11,7 @@
 		A30BF6451FBBF66000BFE40E /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30BF6441FBBF66000BFE40E /* LocationViewModel.swift */; };
 		A30BF6471FBC223200BFE40E /* WeatherStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30BF6461FBC223200BFE40E /* WeatherStation.swift */; };
 		A31B02361FBB6843004EDC5D /* StationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31B02351FBB6843004EDC5D /* StationTableViewController.swift */; };
+		A32F5FFC1FBF4FB10041A35A /* WundergroundQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F5FFB1FBF4FB10041A35A /* WundergroundQuery.swift */; };
 		A346B9E91FBAB18600D1C094 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A346B9E81FBAB18600D1C094 /* AppDelegate.swift */; };
 		A346B9EB1FBAB18600D1C094 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A346B9EA1FBAB18600D1C094 /* ViewController.swift */; };
 		A346B9EE1FBAB18600D1C094 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A346B9EC1FBAB18600D1C094 /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 		A30BF6441FBBF66000BFE40E /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		A30BF6461FBC223200BFE40E /* WeatherStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherStation.swift; sourceTree = "<group>"; };
 		A31B02351FBB6843004EDC5D /* StationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTableViewController.swift; sourceTree = "<group>"; };
+		A32F5FFB1FBF4FB10041A35A /* WundergroundQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WundergroundQuery.swift; sourceTree = "<group>"; };
 		A346B9E51FBAB18600D1C094 /* StationLocation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StationLocation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A346B9E81FBAB18600D1C094 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A346B9EA1FBAB18600D1C094 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -127,8 +129,9 @@
 				A30BF6441FBBF66000BFE40E /* LocationViewModel.swift */,
 				A31B02351FBB6843004EDC5D /* StationTableViewController.swift */,
 				A30BF6421FBBB32F00BFE40E /* LocationAnnotation.swift */,
-				A30BF6461FBC223200BFE40E /* WeatherStation.swift */,
+				A32F5FFB1FBF4FB10041A35A /* WundergroundQuery.swift */,
 				A37CCC441FBE1A770020F15D /* WundergroundQueryResult.swift */,
+				A30BF6461FBC223200BFE40E /* WeatherStation.swift */,
 				A37CCC401FBE16500020F15D /* queryResult.json */,
 				A37CCC461FBE56450020F15D /* station.json */,
 				A30BF6491FBC234300BFE40E /* SupportFiles */,
@@ -300,6 +303,7 @@
 				A30BF6471FBC223200BFE40E /* WeatherStation.swift in Sources */,
 				A31B02361FBB6843004EDC5D /* StationTableViewController.swift in Sources */,
 				A37CCC451FBE1A770020F15D /* WundergroundQueryResult.swift in Sources */,
+				A32F5FFC1FBF4FB10041A35A /* WundergroundQuery.swift in Sources */,
 				A346B9E91FBAB18600D1C094 /* AppDelegate.swift in Sources */,
 				A30BF6451FBBF66000BFE40E /* LocationViewModel.swift in Sources */,
 				A30BF6431FBBB32F00BFE40E /* LocationAnnotation.swift in Sources */,

@@ -46,19 +46,38 @@ struct LocationViewModel {
 //        }) // dispatch block
     }
     
-    func loadWeatherStationsAtLocation(_ location:CLLocationCoordinate2D, withHandler completionHandler:@escaping ([WeatherStation]) -> Void)
+    //
+    func loadWeatherStationsAtLocation(_ location:CLLocationCoordinate2D, withHandler completionHandler:@escaping ([WeatherStation]?) -> Void)
     {
-        // tmp code
-        let stationCount = 5
-        var weatherStations = [WeatherStation].init()
-        for count in 1...stationCount{
-            let stationPos = CLLocationCoordinate2D.init(latitude: location.latitude + Double(count) * 0.5,
-                                                         longitude: location.longitude)
-            let weatherStation = WeatherStation(stationPos)
-            weatherStations.append(weatherStation)
-            
+        let query = WundergroundQuery.init(withLatitude:location.latitude,
+                                           longitude: location.longitude)
+        guard let queryURL = query.URL else {
+            // invalid URL error
+            completionHandler(nil)
+            return
         }
-        completionHandler(weatherStations)
+        print(queryURL.absoluteString)
+        // Simple URL request can use the shared session configuration
+        URLSession.shared.dataTask(with: queryURL) { (data, response, error) in
+            if error != nil {
+                completionHandler(nil)
+                return
+            }
+            let stations = self.parseResponse(data!)
+            completionHandler(stations)
+        }.resume()
     }
     
+    //
+    private func parseResponse(_ jsonData: Data ) -> [WeatherStation]?
+    {
+        let decoder = JSONDecoder()
+        do{
+            let result = try decoder.decode(WundergroundQueryResult.self, from: jsonData)
+            return result.stations
+        }catch {
+            print("ERROR \(error)")
+        }
+        return []
+    }
 }

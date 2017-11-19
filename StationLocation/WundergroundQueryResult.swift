@@ -10,8 +10,8 @@ import Foundation
 
 struct WundergroundQueryResult : Decodable // Encoding not needed now.
 {
-    let location: Location
-    let observation: WeatherObservation
+    let location: Location?
+    let observation: WeatherObservation?
     
     private enum CodingKeys: String , CodingKey {
         case observation = "current_observation"
@@ -22,10 +22,10 @@ struct WundergroundQueryResult : Decodable // Encoding not needed now.
     var stations : [WeatherStation]? {
         get{
             var stations : [WeatherStation]?
-            if let airportStations = location.nearbyStations?["airport"]?["station"]{
+            if let airportStations = location?.nearbyStations?["airport"]?["station"]{
                 stations = airportStations
             }
-            if let pwsStations = location.nearbyStations?["pws"]?["station"]{
+            if let pwsStations = location?.nearbyStations?["pws"]?["station"]{
                 stations?.append(contentsOf: pwsStations)
             }
             return stations
@@ -54,7 +54,6 @@ struct Location : Decodable
         case longitude = "lon"
         case nearbyStations = "nearby_weather_stations"
     }
-
 }
 
 struct WeatherObservation : Decodable

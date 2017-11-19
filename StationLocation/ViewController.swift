@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 
-
 class ViewController: UIViewController {
     
     var locationViewModel: LocationViewModel = LocationViewModel()
@@ -27,32 +26,51 @@ class ViewController: UIViewController {
         mapView.centerCoordinate = origin.center ;
         mapView.region = MKCoordinateRegionMakeWithDistance(origin.center, origin.regionSize, origin.regionSize) ;
     }
-
+   
+    //
+    private let weatherStationDisplayLimit = 5
     @IBAction func handleTapGesture(_ sender: UITapGestureRecognizer) 
     {
         if sender.state == .ended{
             // get map coordinate for touch position
             let tapPoint = sender.location(in: self.mapView)
             let mapCoord = self.mapView.convert(tapPoint, toCoordinateFrom: self.mapView)
-            print("User tap @\(mapCoord.latitude) \(mapCoord.longitude), creating annotation...")
             
             // location annotation
             let locationNote = LocationAnnotation.init(mapCoord)
             self.mapView.addAnnotation(locationNote)
             
             // weather station fetch
-            self.locationViewModel.loadWeatherStationsAtLocation(mapCoord, withHandler: { (weatherStations:[WeatherStation]) in
-                for weatherStation in weatherStations{
-                    self.mapView.addAnnotation(weatherStation)
+            self.locationViewModel.loadWeatherStationsAtLocation(mapCoord, withHandler: { (weatherStations:[WeatherStation]?) in
+                // UI updates on main thread
+                DispatchQueue.main.sync {
+                    guard weatherStations != nil else {
+                        // no data found, alert user
+                        return
+                    }
+                    
+                    let indexLimit = min(self.weatherStationDisplayLimit, weatherStations!.count)
+                    for weatherStation in weatherStations![..<indexLimit] {
+                        print("Adding station")
+                        self.mapView.addAnnotation(weatherStation)
+                    }
+                    locationNote.weatherStations = weatherStations
                 }
             })
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let segue = segue.identifier{
-            if segue == stationSegueId{
-                
+        if let segueID = segue.identifier{
+            if segueID == stationSegueId
+            {
+                let annotationView = sender as? MKAnnotationView
+                guard let locationAnnoation = annotationView?.annotation as? LocationAnnotation ,
+                    let dstController = segue.destination as? StationTableViewController else {
+                    return
+                }
+    
+                dstController.weatherStations = locationAnnoation.weatherStations
             }
         }
     }

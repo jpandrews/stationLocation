@@ -13,7 +13,9 @@ class LocationAnnotation: NSObject , MKAnnotation
 {
     // store location information and loading status to limit multiple queries
     var placemark: CLPlacemark?
-    var placemarkLoading = false 
+    var placemarkLoading = false
+    
+    var weatherStations: [WeatherStation]? = nil
     
     let coordinate: CLLocationCoordinate2D
     var title: String? {
