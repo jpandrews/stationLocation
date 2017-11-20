@@ -23,6 +23,17 @@ class StationTableViewController: UITableViewController {
         }
     }
 
+    override func viewDidLoad() {
+        // simple solution to let the user know zero stations were found
+        // could also use a different cell type or swap the data source/delegate
+        if weatherStations?.count == 0 {
+            let label = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: 10, height: 30))
+            label.text = "Zero weather stations within 40km"
+            label.textAlignment = NSTextAlignment.center
+            self.tableView.tableHeaderView = label
+        }
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -45,7 +56,7 @@ class StationTableViewController: UITableViewController {
             //
             var distanceString = "Distance n/a"
             if let distance = station.distanceKilometers {
-                distanceString = String(distance) + " km"
+                distanceString = String(format: "%.01f" , distance) + " km"
             }
             cell.detailTextLabel?.text = distanceString
             

@@ -65,7 +65,27 @@ struct LocationViewModel {
                 return
             }
             let result = WundergroundQueryResult.init(withJSONData:data!)
+            
+            // while PWS stations include the distance from the query point,
+            // airport stations do not, so calculate their distance from the source point
+            if let stations = result?.stations {
+                self.computeDistanceForWeatherStations(stations, fromCoordinate:location )
+            }
             completionHandler(result)
         }.resume()
     }
+    
+    private func computeDistanceForWeatherStations(_ stations:[WeatherStation] , fromCoordinate coord:CLLocationCoordinate2D )
+    {
+        for station in stations {
+            if station.distanceKilometers == nil {
+                let stationLocation = CLLocation.init(latitude: station.coordinate.latitude,
+                                                      longitude: station.coordinate.longitude)
+                let sourceLocation = CLLocation.init(latitude: coord.latitude,
+                                                     longitude: coord.longitude)
+                station.distanceKilometers = stationLocation.distance(from: sourceLocation) / 1000.0
+            }
+        }
+    }
+    
 }

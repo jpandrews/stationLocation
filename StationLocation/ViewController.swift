@@ -86,10 +86,16 @@ class ViewController: UIViewController {
                     return
                 }
     
-                // limit to 50 stations
+                // limit to 50 stations within 40 km
                 if let weatherStations = locationAnnoation.weatherStations {
                     let stationLimit = min(weatherStations.count , 50)
-                    dstController.weatherStations = Array(weatherStations[0..<stationLimit])
+                    dstController.weatherStations = Array(weatherStations[0..<stationLimit]).filter({ (station) -> Bool in
+                        if let distance = station.distanceKilometers {
+                            return distance < 40.0
+                        }else{
+                            return false // ignore any station with no distance value
+                        }
+                    })
                 }
                 
                 // pass along the title with temperature if available
