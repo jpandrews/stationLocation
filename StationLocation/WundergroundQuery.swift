@@ -23,7 +23,7 @@ struct WundergroundQuery
         case JSON = "json"
     }
     
-    // by default we want both features,
+    // features can be combined in a query and by default we want both,
     // this provides a mechanism for modifying them though
     var features: [Features] = [.Geolookup,.CurrentConditions]
     var outputFormat: OutputFormat = .JSON
@@ -42,6 +42,7 @@ struct WundergroundQuery
     }
     
     // http://api.wunderground.com/api/__Your_Key__/features/(settings)/q/query.format
+    // build the URL for the provided query information
     var URL: URL?
     {
         get{

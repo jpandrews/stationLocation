@@ -40,36 +40,42 @@ class ViewController: UIViewController {
             let locationNote = LocationAnnotation.init(mapCoord)
             self.mapView.addAnnotation(locationNote)
             
+            // query for weather stations
             self.locationViewModel.loadWeatherStationsAtLocation(mapCoord, withHandler: { (result:WundergroundQueryResult?) in
                 // UI updates on main thread
                 DispatchQueue.main.sync {
-                    guard let result = result else {
-                        // no result, something went wrong
-                        return
-                    }
-                    
-                    guard let weatherStations = result.stations else {
-                        // alert user no stations found
-                        return
-                    }
-                    
-                    // add 5 stations to the display
-                    let indexLimit = min(self.weatherStationDisplayLimit, weatherStations.count)
-                    for weatherStation in weatherStations[..<indexLimit] {
-                        self.mapView.addAnnotation(weatherStation)
-                    }
-                    locationNote.weatherStations = weatherStations
-                    locationNote.currentObservation = result.observation
-                    
-                    // this query might take some time,
-                    // refresh the view to show the temperature
-                    let view = self.mapView.view(for: locationNote)
-                    view?.annotation = locationNote
+                    self.updateAnnotation(locationNote, withResult:result)
                 }
             })
         }
     }
     
+    private func updateAnnotation(_ locationAnnotation:LocationAnnotation , withResult result:WundergroundQueryResult? ){
+        guard let result = result else {
+            // no result, something went wrong
+            return
+        }
+        
+        guard let weatherStations = result.stations else {
+            // alert user no stations found
+            return
+        }
+        
+        // add 5 stations to the display
+        let indexLimit = min(self.weatherStationDisplayLimit, weatherStations.count)
+        for weatherStation in weatherStations[..<indexLimit] {
+            self.mapView.addAnnotation(weatherStation)
+        }
+        locationAnnotation.weatherStations = weatherStations
+        locationAnnotation.currentObservation = result.observation
+        
+        // this query might take some time,
+        // refresh the view to show the temperature
+        let view = self.mapView.view(for: locationAnnotation)
+        view?.annotation = locationAnnotation
+    }
+    
+    //
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueID = segue.identifier{
             if segueID == stationSegueId
@@ -92,7 +98,6 @@ class ViewController: UIViewController {
                 } else {
                     dstController.title = locationAnnoation.title
                 }
-                
             }
         }
     }
@@ -111,6 +116,7 @@ extension ViewController : MKMapViewDelegate
     {
         var annotationView : MKAnnotationView?
         
+        // get the view indentifier for the annotation type
         var viewIdentifier: String?
         if annotation is LocationAnnotation{
             viewIdentifier = locationAnnotationId
@@ -119,6 +125,8 @@ extension ViewController : MKMapViewDelegate
             viewIdentifier = weatherStationId
         }
         
+        // now configure the view for the identifier
+        // weather stations are a different color and don't have accessory views
         if let identifer = viewIdentifier{
             annotationView = self.viewForAnnotation(annotation, withIdentifier: identifer)
         }
@@ -163,7 +171,7 @@ extension ViewController : MKMapViewDelegate
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        // detail view tapped
+        // detail view tapped, start the segue to the weather station table view
         if view.annotation is LocationAnnotation && view.rightCalloutAccessoryView == control{
             self.performSegue(withIdentifier: stationSegueId, sender: view)
         }

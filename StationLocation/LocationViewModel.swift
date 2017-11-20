@@ -60,6 +60,7 @@ struct LocationViewModel {
         // Simple URL request can use the shared session configuration
         URLSession.shared.dataTask(with: queryURL) { (data, response, error) in
             if error != nil {
+                // perhaps pass along the error the UI to inform user, not now though.
                 completionHandler(nil)
                 return
             }
