@@ -16,6 +16,7 @@ class LocationAnnotation: NSObject , MKAnnotation
     var placemarkLoading = false
     
     var weatherStations: [WeatherStation]? = nil
+    var currentObservation: WeatherObservation? = nil
     
     let coordinate: CLLocationCoordinate2D
     var title: String? {
@@ -29,7 +30,10 @@ class LocationAnnotation: NSObject , MKAnnotation
     }
     var subtitle: String? {
         get{
-            return nil
+            guard let temperature = currentObservation?.temperatureF else {
+                return nil
+            }
+            return String(temperature) + "℉"
         }
     }
     

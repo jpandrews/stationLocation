@@ -45,6 +45,8 @@ struct WundergroundQuery
     var URL: URL?
     {
         get{
+            assert( WundergroundQuery.API_KEY != "" , "Wunderground API Key must be valid." )
+            
             var urlComponents = URLComponents.init()
             urlComponents.scheme = "https"
             urlComponents.host   = "api.wunderground.com"

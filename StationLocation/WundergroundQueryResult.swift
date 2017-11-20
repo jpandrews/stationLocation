@@ -23,13 +23,26 @@ struct WundergroundQueryResult : Decodable // Encoding not needed now.
         get{
             var stations : [WeatherStation]?
             if let airportStations = location?.nearbyStations?["airport"]?["station"]{
-                stations = airportStations
+                // some station data is empty so filter it out
+                let validStations = airportStations.filter({ (station) -> Bool in
+                    return (station.city != "" && station.state != "")
+                })
+                stations = validStations
             }
             if let pwsStations = location?.nearbyStations?["pws"]?["station"]{
                 stations?.append(contentsOf: pwsStations)
             }
             return stations
         }
+    }
+    
+    init?(withJSONData data:Data) {
+        do{
+            let decoder = JSONDecoder()
+            self = try decoder.decode(WundergroundQueryResult.self, from: data)
+        } catch {
+            return nil
+        }        
     }
 }
 

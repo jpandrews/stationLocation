@@ -47,7 +47,7 @@ struct LocationViewModel {
     }
     
     //
-    func loadWeatherStationsAtLocation(_ location:CLLocationCoordinate2D, withHandler completionHandler:@escaping ([WeatherStation]?) -> Void)
+    func loadWeatherStationsAtLocation(_ location:CLLocationCoordinate2D, withHandler completionHandler:@escaping (WundergroundQueryResult?) -> Void)
     {
         let query = WundergroundQuery.init(withLatitude:location.latitude,
                                            longitude: location.longitude)
@@ -63,21 +63,8 @@ struct LocationViewModel {
                 completionHandler(nil)
                 return
             }
-            let stations = self.parseResponse(data!)
-            completionHandler(stations)
+            let result = WundergroundQueryResult.init(withJSONData:data!)
+            completionHandler(result)
         }.resume()
-    }
-    
-    //
-    private func parseResponse(_ jsonData: Data ) -> [WeatherStation]?
-    {
-        let decoder = JSONDecoder()
-        do{
-            let result = try decoder.decode(WundergroundQueryResult.self, from: jsonData)
-            return result.stations
-        }catch {
-            print("ERROR \(error)")
-        }
-        return []
     }
 }

@@ -40,21 +40,31 @@ class ViewController: UIViewController {
             let locationNote = LocationAnnotation.init(mapCoord)
             self.mapView.addAnnotation(locationNote)
             
-            // weather station fetch
-            self.locationViewModel.loadWeatherStationsAtLocation(mapCoord, withHandler: { (weatherStations:[WeatherStation]?) in
+            self.locationViewModel.loadWeatherStationsAtLocation(mapCoord, withHandler: { (result:WundergroundQueryResult?) in
                 // UI updates on main thread
                 DispatchQueue.main.sync {
-                    guard weatherStations != nil else {
-                        // no data found, alert user
+                    guard let result = result else {
+                        // no result, something went wrong
                         return
                     }
                     
-                    let indexLimit = min(self.weatherStationDisplayLimit, weatherStations!.count)
-                    for weatherStation in weatherStations![..<indexLimit] {
-                        print("Adding station")
+                    guard let weatherStations = result.stations else {
+                        // alert user no stations found
+                        return
+                    }
+                    
+                    // add 5 stations to the display
+                    let indexLimit = min(self.weatherStationDisplayLimit, weatherStations.count)
+                    for weatherStation in weatherStations[..<indexLimit] {
                         self.mapView.addAnnotation(weatherStation)
                     }
                     locationNote.weatherStations = weatherStations
+                    locationNote.currentObservation = result.observation
+                    
+                    // this query might take some time,
+                    // refresh the view to show the temperature
+                    let view = self.mapView.view(for: locationNote)
+                    view?.annotation = locationNote
                 }
             })
         }
@@ -70,7 +80,19 @@ class ViewController: UIViewController {
                     return
                 }
     
-                dstController.weatherStations = locationAnnoation.weatherStations
+                // limit to 50 stations
+                if let weatherStations = locationAnnoation.weatherStations {
+                    let stationLimit = min(weatherStations.count , 50)
+                    dstController.weatherStations = Array(weatherStations[0..<stationLimit])
+                }
+                
+                // pass along the title with temperature if available
+                if let title = locationAnnoation.title , let temperatureString = locationAnnoation.subtitle {
+                    dstController.title = temperatureString + " in " + title
+                } else {
+                    dstController.title = locationAnnoation.title
+                }
+                
             }
         }
     }
@@ -119,6 +141,7 @@ extension ViewController : MKMapViewDelegate
             case weatherStationId:
                 annotationView = MKPinAnnotationView.init(annotation: annotation, reuseIdentifier: identifier)
                 annotationView?.canShowCallout = false
+                annotationView?.pinTintColor = UIColor.blue
             default:
                 annotationView = nil
             }

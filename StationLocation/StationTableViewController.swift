@@ -10,16 +10,22 @@ import UIKit
 
 class StationTableViewController: UITableViewController {
 
-    var weatherStations: [WeatherStation]? = nil
+    // sort the weather stations after setting them
+    var weatherStations: [WeatherStation]? {
+        didSet{
+            if let stations = weatherStations {
+                weatherStations = stations.sorted(by: { (stationA, stationB) -> Bool in
+                    let compareA = stationA.neighborhood ?? stationA.city
+                    let compareB = stationB.neighborhood ?? stationB.city
+                    return compareA.compare(compareB) == ComparisonResult.orderedAscending
+                })
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Num stations \(String(describing: weatherStations?.count))")
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,12 +49,16 @@ class StationTableViewController: UITableViewController {
 
         if let station = weatherStations?[indexPath.row]{
             // Configure the cell...
-            var title = station.city
-            if let neighborhood = station.neighborhood{
-                title = neighborhood + " in " + station.city
+            let title = station.neighborhood ?? station.city
+            cell.textLabel?.text = title + ", " + station.state
+            
+            //
+            var distanceString = "Distance n/a"
+            if let distance = station.distanceKilometers {
+                distanceString = String(distance) + " km"
             }
-            cell.textLabel?.text = title
-            cell.detailTextLabel?.text = station.state
+            cell.detailTextLabel?.text = distanceString
+            
         }
         return cell
     }
